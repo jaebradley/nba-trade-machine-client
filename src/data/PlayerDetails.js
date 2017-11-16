@@ -2,6 +2,7 @@ import { List, Record } from 'immutable';
 
 const defaults = {
   espnId: 0,
+  displayName: '',
   salaryUSD: 0,
   remainingContractYears: 0,
   position: null,

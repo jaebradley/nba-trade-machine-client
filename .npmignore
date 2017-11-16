@@ -5,3 +5,5 @@ npm-debug.log
 .travis.yml
 src/
 test/
+*.test.js
+coverage/

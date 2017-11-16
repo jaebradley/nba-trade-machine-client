@@ -1,15 +1,12 @@
 import cheerio from 'cheerio';
 import { List, Map } from 'immutable';
 import moment from 'moment';
+import numeral from 'numeral';
 
 import PlayerRestriction from './data/PlayerRestriction';
 import PlayerDetails from './data/PlayerDetails';
-
-const parseTeamDetails = (data) => {
-  const $ = cheerio.load(data);
-  const teamPayRollValueClassName = 'teampayrollvalue';
-  const teamCapRoomValueClassName = 'caproomvalue';
-};
+import TeamDetails from './data/TeamDetails';
+import { identifyPosition } from './data/Position';
 
 const parsePlayerRestrictions = (data) => {
   const $ = cheerio.load(data);
@@ -20,7 +17,9 @@ const parsePlayerRestrictions = (data) => {
     const explanation = $(el).children('p').text();
     const expirationDate = moment($(el).children('span').children('strong').text(), 'MMMM D, YYYY');
     const playerRestriction = new PlayerRestriction({ reason, expirationDate, explanation });
-    playerRestrictions = playerRestrictions.set(playerId, playerRestriction);
+    let existingRestrictions = playerRestrictions.get(playerId) || List();
+    existingRestrictions = existingRestrictions.push(playerRestriction);
+    playerRestrictions = playerRestrictions.set(playerId, existingRestrictions);
   });
   return playerRestrictions;
 };
@@ -28,16 +27,37 @@ const parsePlayerRestrictions = (data) => {
 const parsePlayerDetails = (data) => {
   const $ = cheerio.load(data);
   const playerRestrictions = parsePlayerRestrictions(data);
-  let playerDetails = [];
   return List($('.player').map((i, el) => {
-    console.log($(el).find('.salary').text());
     const espnId = el.attribs.id.substring('player_'.length);
-    const salaryUSD = $(el).find('.salary').text();
-    const remainingContractYears = $(el).find('.line > .c2').last().text().split(' ')[0];
-    const playerEfficiencyRating = $(el).find('.c3').text();
-    const position = $(el).find('.posId').text();
-    return new PlayerDetails({ espnId, salaryUSD, remainingContractYears, playerEfficiencyRating, position, restrictions: playerRestrictions.get(espnId) || List() });
+    const displayName = $(el).find('.playerName').text();
+    const salaryUSD = numeral($(el).find('.salary').text()).value();
+    const remainingContractYears = parseInt($(el).find('.line > .c2')
+    .last()
+    .text()
+    .split(' ')[0], 10);
+    const playerEfficiencyRating = $(el).find('.c3').text() === 'N/A' ? null : parseFloat($(el).find('.c3').text());
+    const position = identifyPosition(parseInt($(el).find('.posId').text(), 10));
+    return new PlayerDetails({
+      espnId,
+      displayName,
+      salaryUSD,
+      remainingContractYears,
+      playerEfficiencyRating,
+      position,
+      restrictions: playerRestrictions.get(espnId) || List(),
+    });
   }));
+};
+
+const parseTeamDetails = (data) => {
+  const $ = cheerio.load(data);
+  const remainingTaxSpaceUSD = -numeral($('.teampayrollvalue').text()).value();
+  const availableCapRoomUSD = numeral($('.caproomvalue').text()).value();
+  return new TeamDetails({
+    remainingTaxSpaceUSD,
+    availableCapRoomUSD,
+    playerDetails: parsePlayerDetails(data),
+  });
 };
 
 

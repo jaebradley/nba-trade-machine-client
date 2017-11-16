@@ -7,12 +7,11 @@
     "test": "test"
   },
   "scripts": {
-    "compile": "./node_modules/.bin/babel -d build/ src/",
-    "coverage": "babel-node ./node_modules/istanbul/lib/cli cover node_modules/mocha/bin/_mocha test --  --recursive --compilers js:babel-core/register",
-    "codecov": "./node_modules/.bin/codecov",
-    "prepublish": "npm run compile",
+    "compile": "babel -d build/ src/ --ignore node_modules,*.test.js",
+    "codecov": "codecov",
+    "prepublishOnly": "npm run compile",
     "lint": "eslint --ext .js .",
-    "test": "NODE_ENV=test jest",
+    "test": "jest --coverage",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "commit": "git-cz"
   },
@@ -33,7 +32,8 @@
     "axios": "^0.17.1",
     "cheerio": "^1.0.0-rc.2",
     "immutable": "^3.8.2",
-    "moment": "^2.19.2"
+    "moment": "^2.19.2",
+    "numeral": "^2.0.6"
   },
   "devDependencies": {
     "@semantic-release/commit-analyzer": "^4.0.0",
