@@ -23,7 +23,6 @@ const testPlayerDetails = (player) => {
 describe('#client integration test', () => {
   it('should fetch team details', async () => {
     const details = await getTeamDetails(Team.BOSTON_CELTICS);
-    console.log(`Team Details:\n${details}`); // eslint-disable-line no-console
     expect(details.remainingTaxSpaceUSD).toEqual(8736322);
     expect(details.availableCapRoomUSD).toEqual(-10780911);
     expect(details.playerDetails.size).toEqual(16);

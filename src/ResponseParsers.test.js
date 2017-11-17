@@ -24,7 +24,6 @@ describe('#responseParsers', () => {
   describe('#parsePlayerRestrictions', () => {
     it('should parse player restrictions', () => {
       const restrictions = parsePlayerRestrictions(teamDetailsHtml);
-      console.log(`Player Restrictions:\n${JSON.stringify(restrictions, null, 2)}`); // eslint-disable-line no-console
       // Gordon Hayward Restriction
       testRestriction(restrictions.get('4249').get(0));
     });
@@ -33,7 +32,6 @@ describe('#responseParsers', () => {
   describe('#parsePlayerDetails', () => {
     it('should parse player details', () => {
       const details = parsePlayerDetails(teamDetailsHtml);
-      console.log(`Player Details:\n${JSON.stringify(details, null, 2)}`); // eslint-disable-line no-console
 
       const gordonHayward = details.get(0);
       testPlayerDetails(gordonHayward);
@@ -44,7 +42,6 @@ describe('#responseParsers', () => {
   describe('#parseTeamDetails', () => {
     it('should parse team details', () => {
       const details = parseTeamDetails(teamDetailsHtml);
-      console.log(`Team Details:\n${JSON.stringify(details, null, 2)}`); // eslint-disable-line no-console
 
       expect(details.remainingTaxSpaceUSD).toEqual(8736322);
       expect(details.availableCapRoomUSD).toEqual(-10780911);
