@@ -15,9 +15,9 @@ const formatPlayerTransaction = transaction => (
       playerId: transaction.asset.espnId,
       posId: transaction.asset.position.espnId,
       salary: 0,
-      teUsed: false,
+      teUsed: 'false',
     },
-    fromTeamId: transaction.receivingTeam.espnId,
+    fromTeamId: `${transaction.sendingTeam.espnId}`,
     type: 'player',
   }
 );

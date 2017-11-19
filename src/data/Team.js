@@ -1,3 +1,5 @@
+import { Map } from 'immutable';
+
 const Team = Object.freeze({
   ATLANTA_HAWKS: { espnId: 1, name: 'Atlanta Hawks' },
   BOSTON_CELTICS: { espnId: 2, name: 'Boston Celtics' },
@@ -31,4 +33,40 @@ const Team = Object.freeze({
   UTAH_JAZZ: { espnId: 26, name: 'Utah Jazz' },
 });
 
-export default Team;
+const teamsById = Map({
+  1: Team.ATLANTA_HAWKS,
+  2: Team.BOSTON_CELTICS,
+  17: Team.BROOKLYN_NETS,
+  30: Team.CHARLOTTE_HORNETS,
+  4: Team.CHICAGO_BULLS,
+  5: Team.CLEVELAND_CAVALIERS,
+  8: Team.DETROIT_PISTONS,
+  11: Team.INDIANA_PACERS,
+  14: Team.MIAMI_HEAT,
+  15: Team.MILWAUKEE_BUCKS,
+  18: Team.NEW_YORK_KNICKS,
+  19: Team.ORLANDO_MAGIC,
+  20: Team.PHILADELPHIA_76ERS,
+  28: Team.TORONTO_RAPTORS,
+  27: Team.WASHINGTON_WIZARDS,
+  6: Team.DALLAS_MAVERICKS,
+  7: Team.DENVER_NUGGETS,
+  9: Team.GOLDEN_STATE_WARRIORS,
+  10: Team.HOUSTON_ROCKETS,
+  12: Team.LOS_ANGELES_CLIPPERS,
+  13: Team.LOS_ANGELES_LAKERS,
+  29: Team.MEMPHIS_GRIZZLIES,
+  16: Team.MINNESOTA_TIMBERWOLVES,
+  3: Team.NEW_ORLEANS_PELICANS,
+  25: Team.OKLAHOMA_CITY_THUNDER,
+  21: Team.PHOENIX_SUNS,
+  22: Team.PORTLAND_TRAILBLAZERS,
+  23: Team.SACRAMENTO_KINGS,
+  24: Team.SAN_ANTONIO_SPURS,
+  26: Team.UTAH_JAZZ,
+});
+
+module.exports = {
+  Team,
+  teamsById,
+};

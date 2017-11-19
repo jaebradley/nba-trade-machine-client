@@ -2,11 +2,15 @@ import cheerio from 'cheerio';
 import { List, Map } from 'immutable';
 import moment from 'moment';
 import numeral from 'numeral';
+import striptags from 'striptags';
 
 import PlayerRestriction from './data/PlayerRestriction';
 import PlayerDetails from './data/PlayerDetails';
 import TeamDetails from './data/TeamDetails';
 import { identifyPosition } from './data/Position';
+import TransactionResult from './data/TransactionResult';
+import TransactionFailureReason from './data/TransactionFailureReason';
+import { teamsById } from './data/Team';
 
 const parsePlayerRestrictions = (data) => {
   const $ = cheerio.load(data);
@@ -60,9 +64,33 @@ const parseTeamDetails = (data) => {
   });
 };
 
+const parseSuccessfulTransactionResult = data => (
+  data.tradeTeams.map(teamResult => (
+    new TransactionResult({
+      team: teamsById.get(`${teamResult.teamId}`),
+      winDifferential: teamResult.postWins - teamResult.preWins,
+    })
+  ))
+);
+
+const parseUnsuccessfulTransactionResult = (data) => {
+  const failures = [];
+  Object.keys(data.reasons).forEach((teamId) => {
+    data.reasons[teamId].forEach(reason => (
+      failures.push(new TransactionFailureReason({
+        team: teamsById.get(teamId),
+        reason: striptags(reason),
+      }))
+    ));
+  });
+  return failures;
+};
+
 
 module.exports = {
   parseTeamDetails,
   parsePlayerRestrictions,
   parsePlayerDetails,
+  parseSuccessfulTransactionResult,
+  parseUnsuccessfulTransactionResult,
 };

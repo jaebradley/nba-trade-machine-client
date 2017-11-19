@@ -1,5 +1,5 @@
 import Transaction from './data/Transaction';
-import Team from './data/Team';
+import { Team } from './data/Team';
 import PlayerAsset from './data/PlayerAsset';
 import { Position } from './data/Position';
 import { generateTransactionsQuery } from './QueryGenerator';
@@ -45,9 +45,9 @@ describe('#generateTransactionsQuery', () => {
                 playerId: '1',
                 posId: 1,
                 salary: 0,
-                teUsed: false,
+                teUsed: 'false',
               },
-              fromTeamId: 2,
+              fromTeamId: '9',
               type: 'player',
             },
             {
@@ -56,9 +56,9 @@ describe('#generateTransactionsQuery', () => {
                 playerId: '3',
                 posId: 9,
                 salary: 0,
-                teUsed: false,
+                teUsed: 'false',
               },
-              fromTeamId: 2,
+              fromTeamId: '9',
               type: 'player',
             },
           ],
@@ -72,9 +72,9 @@ describe('#generateTransactionsQuery', () => {
                 playerId: '2',
                 posId: 2,
                 salary: 0,
-                teUsed: false,
+                teUsed: 'false',
               },
-              fromTeamId: 9,
+              fromTeamId: '2',
               type: 'player',
             },
           ],
