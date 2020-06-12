@@ -32,7 +32,7 @@
     "axios": "^0.17.1",
     "cheerio": "^1.0.0-rc.2",
     "immutable": "^3.8.2",
-    "moment": "^2.19.2",
+    "moment": "^2.26.0",
     "numeral": "^2.0.6",
     "qs": "^6.5.1",
     "striptags": "^3.1.0"
