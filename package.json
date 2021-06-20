@@ -35,7 +35,7 @@
     "moment": "^2.19.2",
     "numeral": "^2.0.6",
     "qs": "^6.5.1",
-    "striptags": "^3.1.0"
+    "striptags": "^3.2.0"
   },
   "devDependencies": {
     "@semantic-release/commit-analyzer": "^4.0.0",
